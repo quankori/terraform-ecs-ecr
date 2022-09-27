@@ -3,11 +3,10 @@ variable "region" {
   default = "us-east-2"
 }
 
-variable "prefix" {
-  type = string
-}
-
 variable "app_dir" {
   type = string
 }
 
+variable "name_container" {
+  type = string
+}

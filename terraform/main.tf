@@ -8,6 +8,6 @@ terraform {
 
 module "ecr" {
   source  = "./modules/ecr"
-  prefix  = "kori"
   app_dir = "src"
+  name_container = "kori-demo-container"
 }
