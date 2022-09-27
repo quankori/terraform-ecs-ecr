@@ -3,6 +3,6 @@ init:
 apply:
 	terraform apply -auto-approve
 plan:
-	terraform plan
+	terraform plan 
 remove:
 	terraform destroy

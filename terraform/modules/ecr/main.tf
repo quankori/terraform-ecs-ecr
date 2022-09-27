@@ -1,5 +1,11 @@
+
 resource "aws_ecr_repository" "repo" {
   name = local.ecr_repository_name
+}
+
+locals {
+  ecr_repository_name = var.name_container
+  ecr_id              = "${var.account_id}.dkr.ecr.${var.region}.amazonaws.com"
 }
 
 # The null_resource resource implements the standard resource lifecycle 
@@ -12,9 +18,13 @@ resource "null_resource" "ecr_image" {
   provisioner "local-exec" {
     command = <<EOF
            aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${local.ecr_id}
-           cd ../${local.app_dir}
-           docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
-           docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
+           cd ../${var.app_dir}
+           docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_repository_name} .
+           docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_repository_name}
        EOF
   }
+}
+
+output "ecr_url" {
+  value = "${aws_ecr_repository.repo.repository_url}:${local.ecr_repository_name}"
 }
