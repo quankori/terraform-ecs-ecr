@@ -7,9 +7,7 @@ terraform {
 }
 
 module "ecr" {
-  source = "./modules/ecr"
-
+  source  = "./modules/ecr"
   prefix  = "kori"
   app_dir = "src"
-  profile = "kori"
 }
